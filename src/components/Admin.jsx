@@ -7,7 +7,7 @@ import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 
-ReactGA.initialize('YOUR-GA-TRACKING-ID'); // Add your GA tracking ID here
+ReactGA.initialize('G-2TW7B8EEH1'); // Add your GA tracking ID here
 
 const Admin = () => {
   const [title, setTitle] = useState('');
