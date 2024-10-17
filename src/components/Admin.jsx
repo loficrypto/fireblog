@@ -5,6 +5,9 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import ReactMarkdown from 'react-markdown';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import ReactGA from 'react-ga4';
+
+ReactGA.initialize('YOUR-GA-TRACKING-ID'); // Add your GA tracking ID here
 
 const Admin = () => {
   const [title, setTitle] = useState('');
@@ -63,6 +66,11 @@ const Admin = () => {
     setTags('');
     setImage(null);
     setReadingTime(0);
+    ReactGA.event('create_post', {
+      title,
+      category,
+      tags
+    });
   };
 
   return (
