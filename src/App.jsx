@@ -7,7 +7,6 @@ import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Post from './components/Post';
 import Navbar from './components/Navbar';
-import About from './components/About';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Terms from './components/Terms';
 import Contact from './components/Contact';
@@ -31,7 +30,6 @@ const App = () => {
           <Route path="/admin" element={<Admin />} />
         </Route>
         <Route path="/post/:id" element={<Post />} />
-        <Route path="/about" element={<About />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/contact" element={<Contact />} />
