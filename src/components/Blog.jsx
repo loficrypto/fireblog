@@ -1,6 +1,5 @@
-// Blog.jsx
 import React, { useEffect, useState } from 'react';
-import { db } from './firebaseConfig';
+import { db } from '../firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -32,6 +31,10 @@ const Blog = () => {
               <div className="p-4">
                 <h2 className="text-2xl font-bold text-gray-800">{post.title}</h2>
                 <p className="text-gray-600 mt-2">{post.content.substring(0, 100)}...</p>
+                <p className="text-sm text-gray-500">Category: {post.category}</p>
+                <p className="text-sm text-gray-500">Tags: {post.tags.join(', ')}</p>
+                <p className="text-sm text-gray-500">Reading Time: {post.readingTime} min</p>
+                <p className="text-sm text-gray-500">Published Date: {new Date(post.publishedDate).toLocaleDateString()}</p>
                 <Link to={`/post/${post.id}`} className="text-blue-500 hover:underline mt-4 inline-block">Read more</Link>
               </div>
             </div>
