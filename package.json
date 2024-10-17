@@ -14,7 +14,7 @@
     "@heroicons/react": "^2.1.5",
     "@emailjs/browser": "^4.4.1",
     "firebase": "^10.14.1",
-    "react-syntax-highlighter": "^19.0.0",
+    "react-syntax-highlighter": "^15.6.1",
     "prism-react-renderer": "^2.0.0",
     "react-ga4": "^2.1.0",
     "react-player": "^2.16.0",
