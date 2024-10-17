@@ -1,4 +1,3 @@
-// useSEO.jsx
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 
