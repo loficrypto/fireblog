@@ -1,7 +1,6 @@
-// Admin.jsx
-import React, { useState } from 'react';
-import { db, storage, auth } from './firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
+import { db, storage, auth } from '../firebaseConfig';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import ReactMarkdown from 'react-markdown';
 import { signOut } from 'firebase/auth';
@@ -14,7 +13,16 @@ const Admin = () => {
   const [tags, setTags] = useState('');
   const [image, setImage] = useState(null);
   const [readingTime, setReadingTime] = useState(0);
+  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const querySnapshot = await getDocs(collection(db, 'posts'));
+      setPosts(querySnapshot.docs.map((doc) => doc.data()));
+    };
+    fetchPosts();
+  }, []);
 
   const handleSignOut = async () => {
     await signOut(auth);
@@ -62,7 +70,7 @@ const Admin = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4 text-center">Admin Panel</h2>
         <button onClick={handleSignOut} className="bg-red-500 text-white p-2 rounded mb-4 w-full">Sign Out</button>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 mb-8">
           <div>
             <label className="block mb-2 text-gray-700">Title</label>
             <input
