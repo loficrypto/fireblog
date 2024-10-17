@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { db } from '../firebaseConfig';
 import { doc, getDoc, collection, getDocs, addDoc } from 'firebase/firestore';
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import useSEO from './useSEO';
 import { Helmet } from 'react-helmet';
 
@@ -80,7 +82,32 @@ const Post = () => {
         <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">{post.title}</h1>
         {post.imageUrl && <img src={post.imageUrl} alt={post.title} className="w-full max-h-96 object-cover mb-6 rounded-md shadow-md" />}
         <div className="prose lg:prose-xl mx-auto">
-          <ReactMarkdown>{post.content}</ReactMarkdown>
+          <ReactMarkdown
+            components={{
+              code({ node, inline, className, children, ...props }) {
+                const match = /language-(\w+)/.exec(className || '');
+                return !inline && match ? (
+                  <SyntaxHighlighter
+                    style={dracula}
+                    language={match[1]}
+                    PreTag="div"
+                    {...props}
+                  >
+                    {String(children).replace(/\n$/, '')}
+                  </SyntaxHighlighter>
+                ) : (
+                  <code className={className} {...props}>
+                    {children}
+                  </code>
+                );
+              },
+              iframe({ node, ...props }) {
+                return <div className="iframe-container"><iframe {...props} /></div>;
+              }
+            }}
+          >
+            {post.content}
+          </ReactMarkdown>
         </div>
         <div className="mt-4">
           <p className="text-sm text-gray-500">Category: {post.category}</p>
