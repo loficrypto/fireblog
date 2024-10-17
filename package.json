@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.10",
     "@heroicons/react": "^2.1.5",
+    "@emailjs/browser": "^4.4.1",
     "firebase": "^10.14.1",
     "react-syntax-highlighter": "^19.0.0",
     "prism-react-renderer": "^2.0.0",
