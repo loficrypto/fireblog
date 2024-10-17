@@ -48,22 +48,24 @@ const Post = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-      {post.imageUrl && <img src={post.imageUrl} alt={post.title} className="mb-4" />}
-      <ReactMarkdown>{post.content}</ReactMarkdown>
-      <div className="mt-4">
-        <h3 className="text-xl font-bold mb-2">Comments</h3>
-        <form onSubmit={handleComment} className="mb-4">
+      <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">{post.title}</h1>
+      {post.imageUrl && <img src={post.imageUrl} alt={post.title} className="w-full max-h-96 object-cover mb-6 rounded-md shadow-md" />}
+      <div className="prose lg:prose-xl mx-auto">
+        <ReactMarkdown>{post.content}</ReactMarkdown>
+      </div>
+      <div className="mt-8">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">Comments</h3>
+        <form onSubmit={handleComment} className="mb-8">
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            className="border p-2 w-full mb-2"
+            className="border p-2 w-full mb-4 rounded-md"
             placeholder="Add a comment"
           />
           <button type="submit" className="bg-blue-500 text-white p-2 rounded">Comment</button>
         </form>
         {comments.map((c, index) => (
-          <div key={index} className="mb-2 p-2 bg-gray-100 rounded">
+          <div key={index} className="mb-4 p-4 bg-gray-100 rounded-md shadow-sm">
             {c.text}
           </div>
         ))}
