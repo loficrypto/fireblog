@@ -7,6 +7,12 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Helmet } from 'react-helmet';
 import ReactPlayer from 'react-player';
+import {
+  FacebookShareButton, FacebookIcon,
+  TwitterShareButton, TwitterIcon,
+  LinkedinShareButton, LinkedinIcon,
+  RedditShareButton, RedditIcon
+} from 'react-share';
 import useSEO from './useSEO';
 
 const Post = () => {
@@ -167,6 +173,23 @@ const Post = () => {
               {c.text}
             </div>
           ))}
+        </div>
+        <div className="mt-8">
+          <h3 className="text-2xl font-bold mb-4 text-gray-900">Share this Post</h3>
+          <div className="flex space-x-2">
+            <FacebookShareButton url={window.location.href} quote={post.title}>
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+            <TwitterShareButton url={window.location.href} title={post.title}>
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+            <LinkedinShareButton url={window.location.href} summary={post.content}>
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+            <RedditShareButton url={window.location.href} title={post.title}>
+              <RedditIcon size={32} round />
+            </RedditShareButton>
+          </div>
         </div>
       </div>
     </>
