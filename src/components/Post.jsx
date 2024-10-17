@@ -5,8 +5,9 @@ import { doc, getDoc, collection, getDocs, addDoc } from 'firebase/firestore';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import useSEO from './useSEO';
 import { Helmet } from 'react-helmet';
+import ReactPlayer from 'react-player';
+import useSEO from './useSEO';
 
 const Post = () => {
   const { id } = useParams();
@@ -57,6 +58,52 @@ const Post = () => {
 
   if (!post) return <div>Loading...</div>;
 
+  const renderers = {
+    code({ node, inline, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || '');
+      return !inline && match ? (
+        <SyntaxHighlighter style={dracula} language={match[1]} PreTag="div" {...props}>
+          {String(children).replace(/\n$/, '')}
+        </SyntaxHighlighter>
+      ) : (
+        <code className={className} {...props}>{children}</code>
+      );
+    },
+    iframe({ node, ...props }) {
+      return <div className="iframe-container"><iframe {...props} /></div>;
+    },
+    a({ href, children, ...props }) {
+      const isYouTube = href.includes('youtube.com') || href.includes('youtu.be');
+      const isFacebook = href.includes('facebook.com') && href.includes('video');
+      const isGitHubGist = href.includes('gist.github.com');
+
+      if (isYouTube || isFacebook) {
+        return <ReactPlayer url={href} className="react-player" controls />;
+      }
+      if (isGitHubGist) {
+        return (
+          <div>
+            <iframe 
+              src={`${href}.pibb`} 
+              width="100%" 
+              height="400px" 
+              frameBorder="0" 
+              allowFullScreen 
+              title="GitHub Gist Embed"
+            />
+          </div>
+        );
+      }
+      return <a href={href} {...props}>{children}</a>;
+    },
+    audio({ node, ...props }) {
+      return <audio controls className="w-full" {...props} />;
+    },
+    video({ node, ...props }) {
+      return <video controls className="w-full" {...props} />;
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -82,30 +129,7 @@ const Post = () => {
         <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">{post.title}</h1>
         {post.imageUrl && <img src={post.imageUrl} alt={post.title} className="w-full max-h-96 object-cover mb-6 rounded-md shadow-md" />}
         <div className="prose lg:prose-xl mx-auto">
-          <ReactMarkdown
-            components={{
-              code({ node, inline, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || '');
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={dracula}
-                    language={match[1]}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, '')}
-                  </SyntaxHighlighter>
-                ) : (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                );
-              },
-              iframe({ node, ...props }) {
-                return <div className="iframe-container"><iframe {...props} /></div>;
-              }
-            }}
-          >
+          <ReactMarkdown components={renderers}>
             {post.content}
           </ReactMarkdown>
         </div>
