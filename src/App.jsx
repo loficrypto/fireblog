@@ -1,5 +1,5 @@
 // App.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Blog from './components/Blog';
 import Admin from './components/Admin';
